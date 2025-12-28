@@ -2,6 +2,9 @@
 const nextConfig = {
   /* config options here */
   reactCompiler: true,
+  images: {
+    domains: ["www.themealdb.com"],
+  },
 };
 
 export default nextConfig;
