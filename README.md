@@ -6,28 +6,28 @@ A modern recipe discovery web application built with **Next.js** that allows use
 
 ## Features
 
-# **Recipe Search**
+### **Recipe Search**
   - Search recipes by keywords (dish name, category, etc.)
   - Results displayed on a dedicated search results page
 
-# **Recipe Details Page**
+### **Recipe Details Page**
   - High-quality hero image
   - Ingredients list with measurements
   - Step-by-step cooking instructions
   - Embedded YouTube video tutorial (if available)
 
-# **Save Recipes**
+### **Save Recipes**
   - Save / unsave recipes using a heart icon
   - View all saved recipes on a dedicated **Saved Recipes** page
   - Remove saved recipes using a delete icon
   - Click saved items to reopen full recipe details
 
-# **Login Modal (Mock Authentication)**
+### **Login Modal (Mock Authentication)**
   - Indian mobile number login
   - OTP-based verification (fake OTP using toast notification)
   - Clean modal UI with background blur
 
-# **Responsive Design**
+### **Responsive Design**
   - Optimized for mobile, tablet, and desktop screens
 
 ---
@@ -46,12 +46,12 @@ A modern recipe discovery web application built with **Next.js** that allows use
 
 ##  How to Run Locally
 
-# Install dependencies
+### Install dependencies
 ```bash
 npm install
 ```
 
-# Start development server
+### Start development server
 ```bash
 npm run dev
 ```
@@ -66,5 +66,5 @@ App runs at: `http://localhost:3000`
 - User profile & history
 
 
-# Author
+### Author
 Khushi | sharmakhushi1501@gmail.com
