@@ -101,9 +101,9 @@ export default function LoginModal({ isOpen, onClose }) {
           <X size={20} className="text-gray-400" />
         </button>
 
-        <div className="flex flex-col items-center text-center sm:text-left sm:items-start">
+        <div className="flex flex-col items-center text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-            {step === "phone" ? "Welcome back" : "Confirm Code"}
+            {step === "phone" ? "Login" : "Confirm Code"}
           </h2>
           <p className="text-gray-500 mt-2 text-base">
             {step === "phone" ? "Join RecipeDiary to save your favorite dishes." : `We sent a code to +91 ${phone}`}
