@@ -6,62 +6,72 @@ import { Heart } from "lucide-react"
 import { useSaved } from "@/context/SavedContext"
 
 export default function RecipeCard({ meal }) {
-    const { toggleSave, isSaved } = useSaved()
-    const handleSave = (e) => {
-        e.preventDefault()
-        e.stopPropagation() 
-        toggleSave(meal)
-    }
+  const { toggleSave, isSaved } = useSaved()
+  
+  const handleSave = (e) => {
+    e.preventDefault()
+    e.stopPropagation() 
+    toggleSave(meal)
+  }
+
   return (
-    <Link href={`/recipe/${meal.idMeal}`}>
-      <div className="group bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-xl transition duration-300 cursor-pointer">
+    <Link href={`/recipe/${meal.idMeal}`} className="block group">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 h-full flex flex-col">
         
-        {/* Image */}
-        <div className="relative h-48 w-full overflow-hidden">
+        {/* Image Container: Using aspect-video for consistent sizing across screens */}
+        <div className="relative aspect-4/3 sm:aspect-video w-full overflow-hidden">
           <Image
             src={meal.strMealThumb}
             alt={meal.strMeal}
             fill
-            className="object-cover group-hover:scale-105 transition duration-300"
+            className="object-cover group-hover:scale-110 transition-transform duration-500"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
+          
+          {/* Category Badge - visible on the image for mobile-first flair */}
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-gray-700 shadow-sm">
+            {meal.strCategory}
+          </div>
         </div>
-        
 
         {/* Content */}
-        <div className="p-4">
-            <div className="flex items-center justify-between">
-    
-                <h3 className="text-lg font-semibold text-gray-800 line-clamp-1 pr-2">
-                {meal.strMeal}
-                </h3>
+        <div className="p-4 md:p-5 flex flex-col flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="text-base md:text-lg font-bold text-gray-800 line-clamp-1 group-hover:text-orange-600 transition-colors">
+              {meal.strMeal}
+            </h3>
 
-                <button
-                onClick={handleSave}
-                className="p-2 rounded-full hover:bg-orange-50 transition"
-                >
-                <Heart
-                    size={18}
-                    className={
-                    isSaved(meal.idMeal)
-                        ? "fill-orange-500 text-orange-500"
-                        : "text-gray-400"
-                    }
-                />
-                </button>
+            <button
+              onClick={handleSave}
+              className="p-2 -mr-2 rounded-full hover:bg-orange-50 active:scale-90 transition-all shrink-0"
+              aria-label="Save Recipe"
+            >
+              <Heart
+                size={20}
+                className={
+                  isSaved(meal.idMeal)
+                    ? "fill-orange-500 text-orange-500"
+                    : "text-gray-400"
+                }
+              />
+            </button>
+          </div>
 
-            </div>
-          
-
-          <p className="text-sm text-gray-500 mt-1">
-            {meal.strCategory} • {meal.strArea}
+          <p className="text-xs md:text-sm font-medium text-gray-400 mt-1">
+            {meal.strArea} Cuisine
           </p>
 
-          <p className="mt-3 text-sm text-gray-600 line-clamp-2">
-            {meal.strInstructions}
+          {/* Instructions: Hidden on very small screens or clamped tighter to save vertical space */}
+          <p className="mt-3 text-sm text-gray-500 line-clamp-2 leading-relaxed italic">
+            &ldquo;{meal.strInstructions}&rdquo;
           </p>
 
-          <div className="mt-4 inline-block text-orange-600 font-medium text-sm group-hover:underline">
-            View Recipe →
+          {/* Footer: Pushed to bottom */}
+          <div className="mt-auto pt-4 flex items-center justify-between">
+            <span className="text-orange-600 font-bold text-xs md:text-sm flex items-center gap-1">
+              View Recipe 
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </span>
           </div>
         </div>
       </div>

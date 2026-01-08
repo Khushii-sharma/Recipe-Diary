@@ -1,4 +1,5 @@
 import RecipeClient from "./RecipeClient"
+import { Suspense } from "react";
 
 async function getRecipe(id) {
   const res = await fetch(
@@ -14,8 +15,21 @@ export default async function RecipeDetail({ params }) {
   const meal = await getRecipe(id)
 
   if (!meal) {
-    return <div className="p-10 text-center">Recipe not found</div>
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] px-4 text-center">
+        <h1 className="text-2xl font-bold text-gray-800">Recipe not found</h1>
+        <p className="text-gray-500 mt-2">The meal you are looking for doesn't exist or has been removed.</p>
+        <a href="/" className="mt-6 px-6 py-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition">
+          Back to Home
+        </a>
+      </div>
+    )
   }
 
-  return <RecipeClient meal={meal} />
+  return (
+    // Max-width container keeps the content from stretching too far on 4K monitors
+    <main className="min-h-screen bg-white">
+       <RecipeClient meal={meal} />
+    </main>
+  )
 }

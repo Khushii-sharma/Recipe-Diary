@@ -6,25 +6,37 @@ const SavedContext = createContext()
 
 export function SavedProvider({ children }) {
   const [saved, setSaved] = useState([])
+  const [isHydrated, setIsHydrated] = useState(false) // Prevents SSR mismatches
 
-  // Load from localStorage
+  // 1. Initial Load: Only runs on the client
   useEffect(() => {
     const stored = localStorage.getItem("savedRecipes")
-    if (stored) setSaved(JSON.parse(stored))
+    if (stored) {
+      try {
+        setSaved(JSON.parse(stored))
+      } catch (e) {
+        console.error("Failed to parse saved recipes", e)
+      }
+    }
+    setIsHydrated(true)
   }, [])
 
-  // Persist to localStorage
+  // 2. Persist to localStorage whenever 'saved' changes
   useEffect(() => {
-    localStorage.setItem("savedRecipes", JSON.stringify(saved))
-  }, [saved])
+    if (isHydrated) {
+      localStorage.setItem("savedRecipes", JSON.stringify(saved))
+    }
+  }, [saved, isHydrated])
 
   const toggleSave = (meal) => {
     setSaved(prev => {
       const exists = prev.find(item => item.idMeal === meal.idMeal)
       if (exists) {
+        // We'll return a clean array filter
         return prev.filter(item => item.idMeal !== meal.idMeal)
       }
-      return [...prev, meal]
+      // Add the new meal to the top of the list
+      return [meal, ...prev]
     })
   }
 
@@ -38,9 +50,11 @@ export function SavedProvider({ children }) {
     <SavedContext.Provider
       value={{
         saved,
+        setSaved,
         toggleSave,
         removeSaved,
         isSaved,
+        isHydrated // Useful for showing skeleton loaders in the "Saved" page
       }}
     >
       {children}
@@ -49,5 +63,9 @@ export function SavedProvider({ children }) {
 }
 
 export function useSaved() {
-  return useContext(SavedContext)
+  const context = useContext(SavedContext)
+  if (!context) {
+    throw new Error("useSaved must be used within a SavedProvider")
+  }
+  return context
 }

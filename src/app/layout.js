@@ -1,3 +1,4 @@
+import { Suspense } from "react" // 1. Import Suspense
 import { SearchProvider } from "@/context/SearchContext"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
@@ -17,16 +18,18 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <SavedProvider>
-            <SearchProvider>
-              <Navbar />
-              {children}
-              <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                hideProgressBar
-                closeOnClick
-              />
-            </SearchProvider>
+            <Suspense fallback={null}>
+              <SearchProvider>
+                <Navbar />
+                {children}
+                <ToastContainer
+                  position="top-center"
+                  autoClose={3000}
+                  hideProgressBar
+                  closeOnClick
+                />
+              </SearchProvider>
+            </Suspense>
           </SavedProvider>
         </AuthProvider>
       </body>
